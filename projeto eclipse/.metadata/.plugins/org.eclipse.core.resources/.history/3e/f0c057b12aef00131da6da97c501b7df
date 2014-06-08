@@ -1,0 +1,28 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		int rainhas;
+		Scanner entrada = new Scanner(System.in);
+		do{		
+			System.out.println("Informe o número de rainhas (mínimo 4):");
+			rainhas = entrada.nextInt();
+			try{
+				final String so = System.getProperty("os.name");
+				if(so.contains("Windows"))
+					Runtime.getRuntime().exec("cls");
+				else
+					Runtime.getRuntime().exec("clear");
+			}
+			catch (Exception e){
+				System.out.println("Ocorreu um erro desconhecido: "+e);
+			}
+			if(rainhas<4)
+				System.out.println("O número de rainhas não pode ser menor que 4.");
+		}while(rainhas<4);
+		Tabuleiro tabuleiro = new Tabuleiro(rainhas);
+		tabuleiro.distribuiRainhas();
+		tabuleiro.imprimeTabuleiro();
+	}
+}

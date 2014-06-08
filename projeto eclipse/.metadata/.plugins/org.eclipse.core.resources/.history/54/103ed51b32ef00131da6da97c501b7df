@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -15,7 +16,7 @@ public class Main {
 		}while(rainhas<4);
 		
 		
-		System.out.println("Informe o algoritmo de busca desejado:");
+		System.out.println("Informe o algoritmo debusca desejado:");
 		System.out.println("1. Backtracking");
 		System.out.println("2. Busca em largura");
 		System.out.println("3. Busca em profundidade");

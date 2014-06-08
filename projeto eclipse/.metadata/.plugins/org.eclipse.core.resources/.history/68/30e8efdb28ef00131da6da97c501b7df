@@ -1,0 +1,16 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		int rainhas;
+		Scanner entrada = new Scanner();
+		System.out.println("Informe o número de rainhas:");
+		rainhas = entrada.nextInt();
+		
+		Tabuleiro tabuleiro = new Tabuleiro(rainhas);
+		tabuleiro.distribuiRainhas();
+		tabuleiro.imprimeTabuleiro();
+	}
+
+}
