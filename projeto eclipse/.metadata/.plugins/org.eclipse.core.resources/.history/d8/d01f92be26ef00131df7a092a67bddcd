@@ -1,0 +1,36 @@
+
+import java.util.Random;
+
+public class Tabuleiro {
+	int tabuleiro[][];
+	int rainhas;
+		
+	public Tabuleiro (int rainhas){
+		int i,j;
+		this.rainhas = rainhas;
+		tabuleiro = new int[rainhas][rainhas];
+		for(i=0;i<rainhas;i++)
+			for(j=0;j<rainhas;j++)
+				tabuleiro[i][j]=0;
+	}
+	
+	public void distribuiRainhas(){
+		int i;
+		Random gerador = new Random();
+		for(i=0;i<rainhas;i++)
+			tabuleiro[i][gerador.nextInt(rainhas)]=1;
+	}
+	
+	public void imprimeTabuleiro(){
+		System.out.println(tabuleiro.toString());
+		/*int i,j;
+		String impressao = new String();
+		for(i=0;i<rainhas;i++){
+			for(j=0;j<rainhas;j++)
+				impressao.concat(tabuleiro.toString());
+			impressao.
+			System.out.println(impressao);
+			impressao = new String();
+		}*/
+	}
+}
