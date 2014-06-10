@@ -11,7 +11,6 @@ package ia_nrainhas;
 public class Busca {
     
     public void backtracking(Tabuleiro t){
-        Tabuleiro inicial = t.clone();
         if(this.bt(t))
             System.out.println("Solucao encontrada.");
         else
@@ -21,16 +20,12 @@ public class Busca {
     private Boolean bt(Tabuleiro t){
         int regra;
         Tabuleiro no;
-        //t.imprimeTabuleiro();
         while(true){
             regra = t.regraAplicavel();
-            //System.out.println(regra);
             if(regra>=0){
-                //System.out.println("Linha: "+t.linhaAtual+"\t Existe regra: "+regra);
                 no=t.clone();
                 no.incluiRainha(no.linhaAtual, regra);
                 if(no.cheio()){
-                    //System.out.println("Solucao encontrada (2)");
                     no.imprimeTabuleiro();
                     return true;
                 }
@@ -41,10 +36,6 @@ public class Busca {
                 }
             }
             else{
-                //if(t.igual(inicial)){
-                    //System.out.println("Solucao nao encontrada (2)");
-                //    return false;
-                //}
                 return false;
             }
         }
