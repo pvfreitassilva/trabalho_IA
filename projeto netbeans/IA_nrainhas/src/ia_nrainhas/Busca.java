@@ -11,28 +11,42 @@ package ia_nrainhas;
 public class Busca {
     
     public void backtracking(Tabuleiro t){
-    /*    Tabuleiro inicial = t;
-        Tabuleiro no = t;
-        Boolean sucesso=false, fracasso=false;
-        int regra;
-        no.imprimeTabuleiro();
-        while (!sucesso && !fracasso){
-            regra=no.regraAplicavel();
-            if(regra>0){
-                no = new Tabuleiro(no, regra);
-                if(no.linhaAtual==no.rainhas){
-                    no.imprimeTabuleiro();
-                    sucesso=true;
-                }
-                else
-                    backtracking(no);
-            }
-            else{
-                if(no==inicial)
-                    fracasso=true;
-            }
-                
-        }*/
+        Tabuleiro inicial = t.clone();
+        if(this.bt(t))
+            System.out.println("Solucao encontrada.");
+        else
+            System.out.println("Solucao nao encontrada.");
     }
     
+    private Boolean bt(Tabuleiro t){
+        int regra;
+        Tabuleiro no;
+        //t.imprimeTabuleiro();
+        while(true){
+            regra = t.regraAplicavel();
+            //System.out.println(regra);
+            if(regra>=0){
+                //System.out.println("Linha: "+t.linhaAtual+"\t Existe regra: "+regra);
+                no=t.clone();
+                no.incluiRainha(no.linhaAtual, regra);
+                if(no.cheio()){
+                    //System.out.println("Solucao encontrada (2)");
+                    no.imprimeTabuleiro();
+                    return true;
+                }
+                else{
+                    if(bt(no)){
+                        return true;
+                    }
+                }
+            }
+            else{
+                //if(t.igual(inicial)){
+                    //System.out.println("Solucao nao encontrada (2)");
+                //    return false;
+                //}
+                return false;
+            }
+        }
+    }
 }

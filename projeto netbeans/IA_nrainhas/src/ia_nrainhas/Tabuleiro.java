@@ -10,18 +10,17 @@ import java.util.Random;
  * @author Paulo Vitor
  */
 public class Tabuleiro {
-    int tabuleiro[][];
+    int tabuleiro[];
     int rainhas;
     int regra;
     int linhaAtual;
 
     public Tabuleiro (int rainhas){
-        int i,j;
+        int i;
         this.rainhas = rainhas;
-        tabuleiro = new int[rainhas][rainhas];
+        tabuleiro = new int[rainhas];
         for(i=0;i<rainhas;i++)
-            for(j=0;j<rainhas;j++)
-                tabuleiro[i][j]=0;
+            tabuleiro[i]=-1;
         regra=0;
         linhaAtual=0;
     }
@@ -31,7 +30,7 @@ public class Tabuleiro {
         rainhas = no.rainhas;
         this.regra = 0;
         linhaAtual = no.linhaAtual;       
-        tabuleiro[linhaAtual][regra]=1;
+        tabuleiro[linhaAtual]=regra;
         linhaAtual++;
     }
 
@@ -39,31 +38,71 @@ public class Tabuleiro {
         int i;
         Random gerador = new Random();
         for(i=0;i<rainhas;i++)
-            tabuleiro[i][gerador.nextInt(rainhas)]=1;
+            tabuleiro[i]=gerador.nextInt(rainhas);
     }
     
     public int regraAplicavel(){
         int coluna;
+        if(linhaAtual==0 && regra<rainhas){
+            regra++;
+            return regra-1;
+        }
         if(regra==rainhas)
-            return 0;
-        for(coluna=0; coluna<rainhas;coluna++)
+            return -1;
+        
+        for(coluna=regra; coluna<rainhas; coluna++)
             if(!existeAtaque(coluna)){
-                regra = coluna;
+                regra = coluna+1;
                 return coluna;
             }
-        return 0;
+        return -1;
     }
     
     private Boolean existeAtaque(int coluna){
-        /*int i,j;
-        for(i=0;i<rainhas;i++)
-            for(j=0;j<coluna;j++)
-                if(tabuleiro[i][j]==1)
-                    if(i==linhaAtual || j==coluna)
-                        return true;
+        int linha1, linhaAux, i;
+        for(linha1=0;linha1<linhaAtual;linha1++)
+            if(tabuleiro[linha1]==coluna)
+                return true;
+        i=1;
+        for(linhaAux=linhaAtual-1;linhaAux>=0;linhaAux--){
+            if(tabuleiro[linhaAux]==coluna-i || tabuleiro[linhaAux]==coluna+i)
+                return true;
+            i++;
+        }   
         return false;
-        */
-        
+    }
+    
+    public Tabuleiro clone(){
+        Tabuleiro t = new Tabuleiro(rainhas);
+        int i;
+        for(i=0;i<rainhas;i++)
+            t.tabuleiro[i]=this.tabuleiro[i];
+        t.linhaAtual=this.linhaAtual;
+        //t.regra=this.regra;
+        return t;
+    }
+    
+    public Boolean igual(Tabuleiro t){
+        int i;
+        for(i=0;i<rainhas;i++)
+            if(t.tabuleiro[i]!=this.tabuleiro[i])
+                return false;
+        return true;
+    }
+    
+    public void incluiRainha(int linha, int coluna){
+        this.tabuleiro[linha]=coluna;
+        this.linhaAtual++;
+    }
+    
+    public void removeRainha(int linha){
+        this.tabuleiro[linha]=-1;
+        linhaAtual--;
+    }
+    
+    public boolean cheio(){
+        if(linhaAtual==rainhas)
+            return true;
         return false;
     }
     
@@ -76,8 +115,12 @@ public class Tabuleiro {
         System.out.println(linha);
         for(i=0;i<rainhas;i++){
             System.out.print("| ");
-            for(j=0;j<rainhas;j++)
-                System.out.print(tabuleiro[i][j]+" | ");
+            for(j=0;j<rainhas;j++){
+                if(tabuleiro[i]==j)
+                    System.out.print("R | ");
+                else 
+                    System.out.print("  | ");
+            }
             System.out.println('\n'+linha);
         }
     }
