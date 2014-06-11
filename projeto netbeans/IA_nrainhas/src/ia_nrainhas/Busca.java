@@ -19,7 +19,7 @@ public class Busca {
     public void backtracking(Tabuleiro t){
         estadosExpandidos++;
         if(this.bt(t))
-            System.out.println("Solucao encontrada. Estados expandidos: "+estadosExpandidos);
+            System.out.println("Solucao encontrada. Estados expandidos e visitados: "+estadosExpandidos);
         else
             System.out.println("Solucao nao encontrada.");
     }
