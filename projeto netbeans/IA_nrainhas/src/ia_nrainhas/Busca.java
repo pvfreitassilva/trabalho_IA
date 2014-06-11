@@ -21,7 +21,7 @@ public class Busca {
         if(this.bt(t))
             System.out.println("Solucao encontrada. Estados expandidos e visitados: "+estadosExpandidos);
         else
-            System.out.println("Solucao nao encontrada.");
+            System.out.println("Solucao nao encontrada. Estados expandidos e visitados: "+estadosExpandidos);
     }
     
     private Boolean bt(Tabuleiro t){

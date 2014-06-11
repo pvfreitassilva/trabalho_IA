@@ -3,6 +3,8 @@
  * and open the template in the editor.
  */
 package ia_nrainhas;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -18,7 +20,7 @@ public class Main {
         int rainhas;
         int opcao;
         int continua;
-        long tempoInicial, tempoFinal;
+        long tempoInicial, tempoTotal;
         Scanner entrada = new Scanner(System.in);
         
         System.out.println("#########################################");
@@ -51,17 +53,21 @@ public class Main {
                     System.out.println("Opcao invalida. Digite novamente:");			
             }
             while(opcao<1 || opcao>7);
-
+ 
             Tabuleiro tabuleiro = new Tabuleiro(rainhas);
             Busca b = new Busca();
-
+            
+            SimpleDateFormat s = new SimpleDateFormat("mm:ss:ms");
+            
             switch(opcao){
                 case 1: {
                     System.out.println("Buscando usando backtracking...");
                     tempoInicial=System.currentTimeMillis();
                     b.backtracking(tabuleiro);
-                    tempoFinal=System.currentTimeMillis();
-                    System.out.println("Tempo total de execucao da busca: "+(tempoFinal-tempoInicial)+"ms");
+                    tempoTotal=System.currentTimeMillis()-tempoInicial;
+                    
+                    System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal)));
+                    System.out.println("Tempo em milissegundos: "+tempoTotal+"ms");
                     break;
                 }
                 case 2: {break;}

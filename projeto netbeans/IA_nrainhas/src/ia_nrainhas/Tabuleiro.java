@@ -33,7 +33,7 @@ public class Tabuleiro {
         tabuleiro[linhaAtual]=regra;
         linhaAtual++;
     }
-
+ 
     public void distribuiRainhas(){
         int i;
         Random gerador = new Random();
