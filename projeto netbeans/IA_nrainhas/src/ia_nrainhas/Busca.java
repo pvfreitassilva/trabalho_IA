@@ -10,9 +10,16 @@ package ia_nrainhas;
  */
 public class Busca {
     
+    private int estadosExpandidos, estadosVisitados;
+    
+    public Busca(){
+        estadosExpandidos=estadosVisitados=0;
+    }
+    
     public void backtracking(Tabuleiro t){
+        estadosExpandidos++;
         if(this.bt(t))
-            System.out.println("Solucao encontrada.");
+            System.out.println("Solucao encontrada. Estados expandidos: "+estadosExpandidos);
         else
             System.out.println("Solucao nao encontrada.");
     }
@@ -24,6 +31,7 @@ public class Busca {
             regra = t.regraAplicavel();
             if(regra>=0){
                 no=t.clone();
+                estadosExpandidos++;
                 no.incluiRainha(no.linhaAtual, regra);
                 if(no.cheio()){
                     no.imprimeTabuleiro();

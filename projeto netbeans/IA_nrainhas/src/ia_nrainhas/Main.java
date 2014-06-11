@@ -18,6 +18,7 @@ public class Main {
         int rainhas;
         int opcao;
         int continua;
+        long tempoInicial, tempoFinal;
         Scanner entrada = new Scanner(System.in);
         
         System.out.println("#########################################");
@@ -57,7 +58,10 @@ public class Main {
             switch(opcao){
                 case 1: {
                     System.out.println("Buscando usando backtracking...");
+                    tempoInicial=System.currentTimeMillis();
                     b.backtracking(tabuleiro);
+                    tempoFinal=System.currentTimeMillis();
+                    System.out.println("Tempo total de execucao da busca: "+(tempoFinal-tempoInicial)+"ms");
                     break;
                 }
                 case 2: {break;}
