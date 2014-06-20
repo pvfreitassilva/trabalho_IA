@@ -5,6 +5,8 @@
  */
 package ia_nrainhas;
 
+import static java.util.Collections.list;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -20,5 +22,50 @@ public class BuscaLargura extends Busca {
         super();
         abertos = new LinkedList<Tabuleiro>();
         fechados = new LinkedList<Tabuleiro>();
+    }
+
+    private void imprimeLista(LinkedList l) {
+        Iterator x = l.listIterator();
+        while (x.hasNext()) {
+            ((Tabuleiro) x.next()).imprimeTabuleiro();
+        }
+    }
+
+    public void executaBuscaLargura(Tabuleiro t) {
+        boolean sucesso = false;
+        boolean fracasso = false;
+        int regra;
+        Tabuleiro aux = t.clone();
+        abertos.add(aux);
+
+        while (!(sucesso || fracasso)) {
+            if (abertos.isEmpty()) {
+                fracasso = true;
+                System.out.println("fracassou!!!");
+            } else {
+                Tabuleiro n = abertos.getFirst().clone();
+                System.out.println("primeiro de abertos: ");
+                n.imprimeTabuleiro();
+                if (n.cheio()) {
+                    System.out.println("solução encontrada!");
+                    n.imprimeTabuleiro();
+                    sucesso = true;
+                } else {
+                    Tabuleiro u;
+                    regra = n.regraAplicavel();
+                    while (regra != -1) {
+                        n.incluiRainha(n.linhaAtual, regra);
+                        u = n.clone();
+                        abertos.addLast(u);
+                        regra = n.regraAplicavel();
+                    }
+                    fechados.addLast(n);
+                    abertos.removeFirst();
+                    
+                    System.out.println("abertos depois do while: " + abertos.size());
+                    imprimeLista(abertos);
+                }
+            }
+        }
     }
 }

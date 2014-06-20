@@ -70,7 +70,17 @@ public class Main {
                     System.out.println("Tempo em milissegundos: "+tempoTotal+"ms");
                     break;
                 }
-                case 2: {break;}
+                case 2: {
+                    BuscaLargura bl = new BuscaLargura();
+                    System.out.println("Buscando usando largura...");
+                    tempoInicial=System.currentTimeMillis();
+                    
+                    bl.executaBuscaLargura(tabuleiro);
+                    
+                    tempoTotal=System.currentTimeMillis()-tempoInicial;
+                    System.out.println("Tempo em milissegundos: "+tempoTotal+"ms");
+                    break;
+                }
                 case 3: {break;}
                 case 4: {break;}
                 case 5: {break;}
