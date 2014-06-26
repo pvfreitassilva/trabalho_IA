@@ -16,12 +16,12 @@ import java.util.LinkedList;
 public class BuscaLargura extends Busca {
 
     private LinkedList<Tabuleiro> abertos;
-    private LinkedList<Tabuleiro> fechados;
+    //private LinkedList<Tabuleiro> fechados;
 
     public BuscaLargura() {
         super();
         abertos = new LinkedList<Tabuleiro>();
-        fechados = new LinkedList<Tabuleiro>();
+        //fechados = new LinkedList<Tabuleiro>();
     }
 
     private void imprimeLista(LinkedList l) {
@@ -35,35 +35,35 @@ public class BuscaLargura extends Busca {
         boolean sucesso = false;
         boolean fracasso = false;
         int regra;
-        Tabuleiro aux = t.clone();
-        abertos.add(aux);
+        //Tabuleiro aux = t.clone();
+        abertos.add(t);
 
         while (!(sucesso || fracasso)) {
             if (abertos.isEmpty()) {
                 fracasso = true;
-                System.out.println("fracassou!!!");
+                System.out.println("Solucao nao encontrada.");
             } else {
                 Tabuleiro n = abertos.getFirst().clone();
-                System.out.println("primeiro de abertos: ");
-                n.imprimeTabuleiro();
+                //System.out.println("primeiro de abertos: ");
+                //n.imprimeTabuleiro();
                 if (n.cheio()) {
-                    System.out.println("solução encontrada!");
+                    System.out.println("Solução encontrada!");
                     n.imprimeTabuleiro();
                     sucesso = true;
                 } else {
                     Tabuleiro u;
                     regra = n.regraAplicavel();
                     while (regra != -1) {
-                        n.incluiRainha(n.linhaAtual, regra);
                         u = n.clone();
+                        u.incluiRainha(u.linhaAtual, regra);
                         abertos.addLast(u);
                         regra = n.regraAplicavel();
                     }
-                    fechados.addLast(n);
+                    //fechados.addLast(n);
                     abertos.removeFirst();
                     
-                    System.out.println("abertos depois do while: " + abertos.size());
-                    imprimeLista(abertos);
+                    //System.out.println("abertos depois do while: " + abertos.size());
+                    //imprimeLista(abertos);
                 }
             }
         }

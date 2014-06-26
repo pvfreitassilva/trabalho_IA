@@ -78,7 +78,7 @@ public class Main {
                     bl.executaBuscaLargura(tabuleiro);
                     
                     tempoTotal=System.currentTimeMillis()-tempoInicial;
-                    System.out.println("Tempo em milissegundos: "+tempoTotal+"ms");
+                    System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal))+"'"+(tempoTotal%1000));
                     break;
                 }
                 case 3: {break;}
