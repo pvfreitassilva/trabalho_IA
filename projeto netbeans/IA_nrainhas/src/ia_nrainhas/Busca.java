@@ -66,7 +66,6 @@ public class Busca {
         boolean sucesso = false;
         boolean fracasso = false;
         int regra;
-        //Tabuleiro aux = t.clone();
         abertos.add(t);
         estadosExpandidos++;
 
@@ -75,10 +74,8 @@ public class Busca {
                 fracasso = true;
                 System.out.println("Solucao nao encontrada.");
             } else {
-                Tabuleiro n = abertos.getFirst().clone();
+                Tabuleiro n = abertos.getFirst();
                 estadosVisitados++;
-                //System.out.println("primeiro de abertos: ");
-                //n.imprimeTabuleiro();
                 if (n.cheio()) {
                     n.imprimeTabuleiro();
                     System.out.println("Solução encontrada. Estados expandidos: "+estadosExpandidos+". Estados visitados: "+estadosVisitados+".");

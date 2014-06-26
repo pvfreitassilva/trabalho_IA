@@ -22,6 +22,9 @@ public class Main {
         int continua;
         long tempoInicial, tempoTotal;
         Scanner entrada = new Scanner(System.in);
+        SimpleDateFormat s = new SimpleDateFormat("mm:ss:ms");
+        Tabuleiro tabuleiro;
+        Busca b;
         
         System.out.println("#########################################");
         System.out.println("#  Trabalho de Inteligencia Artificial  #");
@@ -54,38 +57,48 @@ public class Main {
             }
             while(opcao<1 || opcao>7);
  
-            Tabuleiro tabuleiro = new Tabuleiro(rainhas);
-            Busca b;
-            
-            SimpleDateFormat s = new SimpleDateFormat("mm:ss:ms");
+            tabuleiro = new Tabuleiro(rainhas);
+            b = new Busca();
+            tempoInicial=System.currentTimeMillis();
             
             switch(opcao){
                 case 1: {
                     System.out.println("Buscando usando backtracking...");
-                    b = new Busca();
-                    tempoInicial=System.currentTimeMillis();
                     b.backtracking(tabuleiro);
-                    tempoTotal=System.currentTimeMillis()-tempoInicial;
-                    System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal))+"'"+(tempoTotal%1000));
-                    //System.out.println("Tempo em milissegundos: "+tempoTotal+"ms");
                     break;
                 }
                 case 2: {
-                    System.out.println("Buscando usando largura...");
-                    b = new Busca();
-                    tempoInicial=System.currentTimeMillis();
+                    System.out.println("Buscando usando busca em largura...");
                     b.largura(tabuleiro);
-                    tempoTotal=System.currentTimeMillis()-tempoInicial;
-                    System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal))+"'"+(tempoTotal%1000));
                     break;
                 }
-                case 3: {break;}
-                case 4: {break;}
-                case 5: {break;}
-                case 6: {break;}
-                case 7: {break;}
+                case 3: {
+                    System.out.println("Buscando usando busca em profundidade...");                    
+                    //b.profundidade(tabuleiro);
+                    break;
+                }
+                case 4: {
+                    System.out.println("Buscando usando busca ordenada...");
+                    //b.ordenada(tabuleiro);
+                    break;
+                }
+                case 5: {System.out.println("Buscando usando busca gulosa...");
+                    //b.gulosa(tabuleiro);
+                    break;
+                }
+                case 6: {System.out.println("Buscando usando busca A*...");
+                    //b.a_estrela(tabuleiro);
+                    break;
+                }
+                case 7: {System.out.println("Buscando usando busca IDA*...");
+                    //b.ida_estrela(tabuleiro);
+                    break;
+                }
                 default: break;
             }
+            
+            tempoTotal=System.currentTimeMillis()-tempoInicial;
+            System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal))+"'"+(tempoTotal%1000));
 
             System.out.println("Deseja realizar uma nova busca?");
             System.out.println("1. Sim");
@@ -95,9 +108,6 @@ public class Main {
                 if(continua!=1 && continua!=2)
                     System.out.println("Opcao invalida. Digite novamente:");
             }while(continua!=1 && continua!=2);
-
-            //tabuleiro.distribuiRainhas();
-            //tabuleiro.imprimeTabuleiro();
         }while(continua!=2);
     }
 }
