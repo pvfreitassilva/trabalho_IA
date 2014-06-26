@@ -66,8 +66,8 @@ public class Main {
                     b.backtracking(tabuleiro);
                     tempoTotal=System.currentTimeMillis()-tempoInicial;
                     
-                    System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal)));
-                    System.out.println("Tempo em milissegundos: "+tempoTotal+"ms");
+                    System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal))+"'"+(tempoTotal%1000));
+                    //System.out.println("Tempo em milissegundos: "+tempoTotal+"ms");
                     break;
                 }
                 case 2: {break;}

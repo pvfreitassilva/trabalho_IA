@@ -48,4 +48,11 @@ public class Busca {
             }
         }
     }
+    
+    public Boolean ordenada(Tabuleiro t){
+        
+        
+        
+        return false;
+    }
 }
