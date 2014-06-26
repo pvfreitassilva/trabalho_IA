@@ -55,28 +55,26 @@ public class Main {
             while(opcao<1 || opcao>7);
  
             Tabuleiro tabuleiro = new Tabuleiro(rainhas);
-            Busca b = new Busca();
+            Busca b;
             
             SimpleDateFormat s = new SimpleDateFormat("mm:ss:ms");
             
             switch(opcao){
                 case 1: {
                     System.out.println("Buscando usando backtracking...");
+                    b = new Busca();
                     tempoInicial=System.currentTimeMillis();
                     b.backtracking(tabuleiro);
                     tempoTotal=System.currentTimeMillis()-tempoInicial;
-                    
                     System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal))+"'"+(tempoTotal%1000));
                     //System.out.println("Tempo em milissegundos: "+tempoTotal+"ms");
                     break;
                 }
                 case 2: {
-                    BuscaLargura bl = new BuscaLargura();
                     System.out.println("Buscando usando largura...");
+                    b = new Busca();
                     tempoInicial=System.currentTimeMillis();
-                    
-                    bl.executaBuscaLargura(tabuleiro);
-                    
+                    b.largura(tabuleiro);
                     tempoTotal=System.currentTimeMillis()-tempoInicial;
                     System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal))+"'"+(tempoTotal%1000));
                     break;

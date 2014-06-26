@@ -4,6 +4,8 @@
  */
 package ia_nrainhas;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author Paulo Vitor
@@ -18,10 +20,12 @@ public class Busca {
     
     public void backtracking(Tabuleiro t){
         estadosExpandidos++;
-        if(this.bt(t))
+        if(this.bt(t)) {
             System.out.println("Solucao encontrada. Estados expandidos e visitados: "+estadosExpandidos);
-        else
+        }
+        else {
             System.out.println("Solucao nao encontrada. Estados expandidos e visitados: "+estadosExpandidos);
+        }
     }
     
     private Boolean bt(Tabuleiro t){
@@ -54,5 +58,48 @@ public class Busca {
         
         
         return false;
+    }
+    
+    public void largura(Tabuleiro t){
+        
+        LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
+        boolean sucesso = false;
+        boolean fracasso = false;
+        int regra;
+        //Tabuleiro aux = t.clone();
+        abertos.add(t);
+        estadosExpandidos++;
+
+        while (!(sucesso || fracasso)) {
+            if (abertos.isEmpty()) {
+                fracasso = true;
+                System.out.println("Solucao nao encontrada.");
+            } else {
+                Tabuleiro n = abertos.getFirst().clone();
+                estadosVisitados++;
+                //System.out.println("primeiro de abertos: ");
+                //n.imprimeTabuleiro();
+                if (n.cheio()) {
+                    n.imprimeTabuleiro();
+                    System.out.println("Solução encontrada. Estados expandidos: "+estadosExpandidos+". Estados visitados: "+estadosVisitados+".");
+                    sucesso = true;
+                } else {
+                    Tabuleiro u;
+                    regra = n.regraAplicavel();
+                    while (regra != -1) {
+                        u = n.clone();
+                        u.incluiRainha(u.linhaAtual, regra);
+                        abertos.addLast(u);
+                        regra = n.regraAplicavel();
+                        estadosExpandidos++;
+                    }
+                    //fechados.addLast(n);
+                    abertos.removeFirst();
+                    
+                    //System.out.println("abertos depois do while: " + abertos.size());
+                    //imprimeLista(abertos);
+                }
+            }
+        }
     }
 }
