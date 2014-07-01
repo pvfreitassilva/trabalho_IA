@@ -74,7 +74,7 @@ public class Main {
                 }
                 case 3: {
                     System.out.println("Buscando usando busca em profundidade...");                    
-                    //b.profundidade(tabuleiro);
+                    b.profundidade(tabuleiro);
                     break;
                 }
                 case 4: {

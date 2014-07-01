@@ -11,57 +11,51 @@ import java.util.LinkedList;
  * @author Paulo Vitor
  */
 public class Busca {
-    
+
     private int estadosExpandidos, estadosVisitados;
-    
-    public Busca(){
-        estadosExpandidos=estadosVisitados=0;
+
+    public Busca() {
+        estadosExpandidos = estadosVisitados = 0;
     }
-    
-    public void backtracking(Tabuleiro t){
+
+    public void backtracking(Tabuleiro t) {
         estadosExpandidos++;
-        if(this.bt(t)) {
-            System.out.println("Solucao encontrada. Estados expandidos e visitados: "+estadosExpandidos);
-        }
-        else {
-            System.out.println("Solucao nao encontrada. Estados expandidos e visitados: "+estadosExpandidos);
+        if (this.bt(t)) {
+            System.out.println("Solucao encontrada. Estados expandidos e visitados: " + estadosExpandidos);
+        } else {
+            System.out.println("Solucao nao encontrada. Estados expandidos e visitados: " + estadosExpandidos);
         }
     }
-    
-    private Boolean bt(Tabuleiro t){
+
+    private Boolean bt(Tabuleiro t) {
         int regra;
         Tabuleiro no;
-        while(true){
+        while (true) {
             regra = t.regraAplicavel();
-            if(regra>=0){
-                no=t.clone();
+            if (regra >= 0) {
+                no = t.clone();
                 estadosExpandidos++;
                 no.incluiRainha(no.linhaAtual, regra);
-                if(no.cheio()){
+                if (no.cheio()) {
                     no.imprimeTabuleiro();
                     return true;
-                }
-                else{
-                    if(bt(no)){
+                } else {
+                    if (bt(no)) {
                         return true;
                     }
                 }
-            }
-            else{
+            } else {
                 return false;
             }
         }
     }
-    
-    public Boolean ordenada(Tabuleiro t){
-        
-        
-        
+
+    public Boolean ordenada(Tabuleiro t) {
+
         return false;
     }
-    
-    public void largura(Tabuleiro t){
-        
+
+    public void largura(Tabuleiro t) {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         boolean sucesso = false;
         boolean fracasso = false;
@@ -72,13 +66,13 @@ public class Busca {
         while (!(sucesso || fracasso)) {
             if (abertos.isEmpty()) {
                 fracasso = true;
-                System.out.println("Solucao nao encontrada.");
+                System.out.println("Solucao não encontrada.");
             } else {
                 Tabuleiro n = abertos.getFirst();
                 estadosVisitados++;
                 if (n.cheio()) {
                     n.imprimeTabuleiro();
-                    System.out.println("Solução encontrada. Estados expandidos: "+estadosExpandidos+". Estados visitados: "+estadosVisitados+".");
+                    System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
                     sucesso = true;
                 } else {
                     Tabuleiro u;
@@ -90,11 +84,42 @@ public class Busca {
                         regra = n.regraAplicavel();
                         estadosExpandidos++;
                     }
-                    //fechados.addLast(n);
                     abertos.removeFirst();
-                    
-                    //System.out.println("abertos depois do while: " + abertos.size());
-                    //imprimeLista(abertos);
+                }
+            }
+        }
+    }
+
+    public void profundidade(Tabuleiro t) {
+        LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
+        boolean sucesso = false;
+        boolean fracasso = false;
+        int regra;
+        abertos.add(t);
+        estadosExpandidos++;
+
+        while (!(sucesso || fracasso)) {
+            if (abertos.isEmpty()) {
+                fracasso = true;
+                System.out.println("Solucao não encontrada.");
+            } else {
+                Tabuleiro n = abertos.getLast();
+                estadosVisitados++;
+                if (n.cheio()) {
+                    n.imprimeTabuleiro();
+                    System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+                    sucesso = true;
+                } else {
+                    Tabuleiro u;
+                    regra = n.regraAplicavel();
+                    abertos.removeLast();  
+                    while (regra != -1) {
+                        u = n.clone();
+                        u.incluiRainha(u.linhaAtual, regra);
+                        abertos.add(u);
+                        regra = n.regraAplicavel();
+                        estadosExpandidos++;
+                    }
                 }
             }
         }
