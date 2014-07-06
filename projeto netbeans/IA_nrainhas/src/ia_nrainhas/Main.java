@@ -98,7 +98,7 @@ public class Main {
             }
             
             tempoTotal=System.currentTimeMillis()-tempoInicial;
-            System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal))+"'"+(tempoTotal%1000));
+            System.out.println("Tempo total de execucao da busca: "+s.format(new Date(tempoTotal)));
 
             System.out.println("Deseja realizar uma nova busca?");
             System.out.println("1. Sim");

@@ -66,7 +66,7 @@ public class Busca {
         while (!(sucesso || fracasso)) {
             if (abertos.isEmpty()) {
                 fracasso = true;
-                System.out.println("Solucao não encontrada.");
+                System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
             } else {
                 Tabuleiro n = abertos.getFirst();
                 estadosVisitados++;
@@ -101,7 +101,7 @@ public class Busca {
         while (!(sucesso || fracasso)) {
             if (abertos.isEmpty()) {
                 fracasso = true;
-                System.out.println("Solucao não encontrada.");
+                System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
             } else {
                 Tabuleiro n = abertos.getLast();
                 estadosVisitados++;
