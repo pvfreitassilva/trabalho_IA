@@ -125,4 +125,20 @@ public class Tabuleiro {
             System.out.println("");
         }
     }
+    
+    public int heuristica() {
+
+        int i, j, ataques = 0, aux = 0;
+
+        for (i = 0; i < rainhas - 1; i++) {
+            for (j = i + 1; j < rainhas; j++) {
+                if (tabuleiro[i] == tabuleiro[j] || tabuleiro[i] + j - aux == tabuleiro[j] || tabuleiro[i] - j + aux == tabuleiro[j]) {
+                    ataques++;
+                }
+            }
+            aux++;
+        }
+
+        return ataques;
+    }
 }

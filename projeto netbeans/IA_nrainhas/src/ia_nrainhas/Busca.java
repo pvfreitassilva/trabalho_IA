@@ -50,9 +50,8 @@ public class Busca {
         }
     }
 
-    public Boolean ordenada(Tabuleiro t) {
+    public void ordenada(Tabuleiro t) {
 
-        return false;
     }
 
     public void largura(Tabuleiro t) {

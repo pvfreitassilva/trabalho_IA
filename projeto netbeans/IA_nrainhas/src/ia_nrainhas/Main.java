@@ -42,6 +42,14 @@ public class Main {
                     System.out.println("O numero de rainhas nao pode ser menor que 4. Digite novamente:");
             }while(rainhas<4);
 
+            
+            
+            Tabuleiro aux = new Tabuleiro(rainhas);
+            aux.distribuiRainhas();
+            aux.imprimeTabuleiro();
+            System.out.println("N ataques:"+aux.heuristica());
+            
+            
             System.out.println("Informe o algoritmo de busca desejado:");
             System.out.println("1. Backtracking");
             System.out.println("2. Busca em largura");
