@@ -71,7 +71,7 @@ public class Main {
             
             switch(opcao){
                 case 1: {
-                    System.out.println("Buscando usando backtracking...");
+                    System.out.println("Buscando usando backtracking....");
                     b.backtracking(tabuleiro);
                     break;
                 }
