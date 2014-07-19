@@ -58,12 +58,12 @@ public class Main {
             System.out.println("5. Busca gulosa");
             System.out.println("6. Busca A*");
             System.out.println("7. Busca IDA*");
+            
             do{
                 opcao = entrada.nextInt();
                 if(opcao<1 || opcao>7)
                     System.out.println("Opcao invalida. Digite novamente:");			
-            }
-            while(opcao<1 || opcao>7);
+            }while(opcao<1 || opcao>7);
  
             tabuleiro = new Tabuleiro(rainhas);
             b = new Busca();
@@ -90,15 +90,18 @@ public class Main {
                     b.ordenada(tabuleiro);
                     break;
                 }
-                case 5: {System.out.println("Buscando usando busca gulosa...");
-                    //b.gulosa(tabuleiro);
+                case 5: {
+                    System.out.println("Buscando usando busca gulosa...");
+                    b.gulosa(tabuleiro);
                     break;
                 }
-                case 6: {System.out.println("Buscando usando busca A*...");
+                case 6: {
+                    System.out.println("Buscando usando busca A*...");
                     //b.a_estrela(tabuleiro);
                     break;
                 }
-                case 7: {System.out.println("Buscando usando busca IDA*...");
+                case 7: {
+                    System.out.println("Buscando usando busca IDA*...");
                     //b.ida_estrela(tabuleiro);
                     break;
                 }

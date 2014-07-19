@@ -3,17 +3,20 @@
  * and open the template in the editor.
  */
 package ia_nrainhas;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
  *
  * @author Paulo Vitor
  */
-public class Tabuleiro {
+public class Tabuleiro implements Comparable<Tabuleiro>{
     int tabuleiro[];
     int rainhas;
     int regra;
     int linhaAtual;
+    private int avaliacao;
+    private int heuristica;
 
     public Tabuleiro (int rainhas){
         int i;
@@ -23,22 +26,53 @@ public class Tabuleiro {
             tabuleiro[i]=-1;
         regra=0;
         linhaAtual=0;
+        avaliacao = -1;
+        heuristica = -1;
     }
     
-    public Tabuleiro (Tabuleiro no, int regra){
+    /*public Tabuleiro (Tabuleiro no, int regra){
         tabuleiro = no.tabuleiro.clone();
         rainhas = no.rainhas;
         this.regra = 0;
         linhaAtual = no.linhaAtual;       
         tabuleiro[linhaAtual]=regra;
         linhaAtual++;
-    }
+    }*/
  
     public void distribuiRainhas(){
         int i;
         Random gerador = new Random();
         for(i=0;i<rainhas;i++)
             tabuleiro[i]=gerador.nextInt(rainhas);
+        regra=-1;
+        linhaAtual=rainhas;
+        heuristica = this.heuristica();
+    }
+    
+    public void sorteiaMovimento(){
+        Random gerador = new Random();
+        int linha, coluna;
+        if(linhaAtual!=rainhas){
+            System.out.println("O tabuleiro nao foi distribuido. Nao foi possivel sortear um movimento.");
+        }
+        else{
+            linha = gerador.nextInt(rainhas);
+            coluna = gerador.nextInt(rainhas);
+            tabuleiro[linha]=coluna;
+            heuristica = this.heuristica();
+        }
+    }
+    
+    public void setAvaliacao(int avaliacao){
+        this.avaliacao = avaliacao;
+    }
+    
+    public int getAvaliacao(){
+        return avaliacao;
+    }
+    
+    public int getHeuristica(){
+        return heuristica;
     }
     
     public int regraAplicavel(){
@@ -47,14 +81,17 @@ public class Tabuleiro {
             regra++;
             return regra-1;
         }
-        if(regra==rainhas)
+        if(regra==rainhas){
+            regra = -1;
             return -1;
+        }
         
         for(coluna=regra; coluna<rainhas; coluna++)
             if(!existeAtaque(coluna)){
                 regra = coluna+1;
                 return coluna;
             }
+        regra = -1;
         return -1;
     }
     
@@ -72,18 +109,26 @@ public class Tabuleiro {
         return false;
     }
     
+    public void moveRainha(int linha, int coluna){
+        tabuleiro[linha]=coluna;
+        heuristica = this.heuristica();
+    }
+    
     public Tabuleiro clone(){
         Tabuleiro t = new Tabuleiro(rainhas);
         int i;
         for(i=0;i<rainhas;i++)
             t.tabuleiro[i]=this.tabuleiro[i];
         t.linhaAtual=this.linhaAtual;
-        //t.regra=this.regra;
+        t.setAvaliacao(avaliacao);
+        t.setHeuristica(heuristica);     
         return t;
     }
     
     public Boolean igual(Tabuleiro t){
         int i;
+        if(t==null)
+            return false;
         for(i=0;i<rainhas;i++)
             if(t.tabuleiro[i]!=this.tabuleiro[i])
                 return false;
@@ -126,10 +171,8 @@ public class Tabuleiro {
         }
     }
     
-    public int heuristica() {
-
+    private int heuristica() {
         int i, j, ataques = 0, aux = 0;
-
         for (i = 0; i < rainhas - 1; i++) {
             for (j = i + 1; j < rainhas; j++) {
                 if (tabuleiro[i] == tabuleiro[j] || tabuleiro[i] + j - aux == tabuleiro[j] || tabuleiro[i] - j + aux == tabuleiro[j]) {
@@ -138,7 +181,36 @@ public class Tabuleiro {
             }
             aux++;
         }
-
         return ataques;
+    }
+    
+    public void setHeuristica(int h){
+        heuristica = h;
+    }
+    
+    public LinkedList<Tabuleiro> proximosEstadosGulosa(){
+        int i,j;
+        Tabuleiro t;
+        LinkedList<Tabuleiro> novosEstados = new LinkedList<Tabuleiro>();
+        
+        for(i=0;i<rainhas;i++){
+            for(j=0;j<rainhas;j++)
+                if(tabuleiro[i]!=j){
+                    t = this.clone();
+                    t.moveRainha(i, j);
+                    t.setAvaliacao(t.getHeuristica());
+                    novosEstados.add(t);
+                }
+        }
+        return novosEstados;
+    }
+    
+     public int compareTo(Tabuleiro t){
+        if(this.avaliacao < t.getAvaliacao())
+            return -1;
+        else if(this.avaliacao > t.getAvaliacao())
+            return 1;
+        else
+            return 0;
     }
 }
