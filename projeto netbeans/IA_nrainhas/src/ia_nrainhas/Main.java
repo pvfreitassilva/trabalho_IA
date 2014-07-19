@@ -24,6 +24,7 @@ public class Main {
         Scanner entrada = new Scanner(System.in);
         SimpleDateFormat s = new SimpleDateFormat("mm:ss:ms");
         Tabuleiro tabuleiro;
+        Tabuleiro tabDistribuido, tabAux;
         Busca b;
         
         System.out.println("#########################################");
@@ -34,22 +35,20 @@ public class Main {
         System.out.println("#     Paulo Vitor Freitas da Silva      #");
         System.out.println("#########################################");
 
+        System.out.println("\nInforme o numero de rainhas (minimo 4):");
         do{
-            System.out.println("\nInforme o numero de rainhas (minimo 4):");
-            do{
-                rainhas = entrada.nextInt();
-                if(rainhas<4)
-                    System.out.println("O numero de rainhas nao pode ser menor que 4. Digite novamente:");
-            }while(rainhas<4);
-
-            
-            /*
-            Tabuleiro aux = new Tabuleiro(rainhas);
-            aux.distribuiRainhas();
-            aux.imprimeTabuleiro();
-            System.out.println("N ataques:"+aux.heuristica());
-            */
-            
+            rainhas = entrada.nextInt();
+            if(rainhas<4)
+                System.out.println("O numero de rainhas nao pode ser menor que 4. Digite novamente:");
+        }while(rainhas<4);
+        
+        tabDistribuido = new Tabuleiro(rainhas);
+        tabDistribuido.distribuiRainhas();
+        tabAux = tabDistribuido;
+        
+        do{
+            tabDistribuido = tabAux;
+            tabuleiro = new Tabuleiro(rainhas);
             System.out.println("Informe o algoritmo de busca desejado:");
             System.out.println("1. Backtracking");
             System.out.println("2. Busca em largura");
@@ -65,7 +64,7 @@ public class Main {
                     System.out.println("Opcao invalida. Digite novamente:");			
             }while(opcao<1 || opcao>7);
  
-            tabuleiro = new Tabuleiro(rainhas);
+            
             b = new Busca();
             tempoInicial=System.currentTimeMillis();
             
@@ -92,17 +91,17 @@ public class Main {
                 }
                 case 5: {
                     System.out.println("Buscando usando busca gulosa...");
-                    b.gulosa(tabuleiro);
+                    b.gulosa(tabDistribuido);
                     break;
                 }
                 case 6: {
                     System.out.println("Buscando usando busca A*...");
-                    //b.a_estrela(tabuleiro);
+                    b.a_estrela(tabDistribuido);
                     break;
                 }
                 case 7: {
                     System.out.println("Buscando usando busca IDA*...");
-                    //b.ida_estrela(tabuleiro);
+                    b.ida_estrela(tabDistribuido);
                     break;
                 }
                 default: break;

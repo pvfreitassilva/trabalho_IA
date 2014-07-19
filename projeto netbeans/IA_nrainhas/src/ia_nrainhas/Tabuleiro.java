@@ -30,15 +30,6 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         heuristica = -1;
     }
     
-    /*public Tabuleiro (Tabuleiro no, int regra){
-        tabuleiro = no.tabuleiro.clone();
-        rainhas = no.rainhas;
-        this.regra = 0;
-        linhaAtual = no.linhaAtual;       
-        tabuleiro[linhaAtual]=regra;
-        linhaAtual++;
-    }*/
- 
     public void distribuiRainhas(){
         int i;
         Random gerador = new Random();
@@ -96,13 +87,13 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
     }
     
     private Boolean existeAtaque(int coluna){
-        int linha1, linhaAux, i;
-        for(linha1=0;linha1<linhaAtual;linha1++)
-            if(tabuleiro[linha1]==coluna)
+        int linha, linhaAux, i;
+        for(linha=0;linha<linhaAtual;linha++)
+            if(tabuleiro[linha]==coluna)
                 return true;
         i=1;
-        for(linhaAux=linhaAtual-1;linhaAux>=0;linhaAux--){
-            if(tabuleiro[linhaAux]==coluna-i || tabuleiro[linhaAux]==coluna+i)
+        for(linha=linhaAtual-1;linha>=0;linha--){
+            if(tabuleiro[linha]==coluna-i || tabuleiro[linha]==coluna+i)
                 return true;
             i++;
         }   
@@ -156,7 +147,6 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         String linha = new String();
         for(i=0;i<rainhas;i++)
             linha = linha.concat(" _");
-        //linha = linha.concat("-");
         System.out.println(linha);
         for(i=0;i<rainhas;i++){
             System.out.print("|");
@@ -166,7 +156,6 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
                 else 
                     System.out.print("_|");
             }
-            //System.out.println('\n'+linha);
             System.out.println("");
         }
     }
@@ -199,6 +188,23 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
                     t = this.clone();
                     t.moveRainha(i, j);
                     t.setAvaliacao(t.getHeuristica());
+                    novosEstados.add(t);
+                }
+        }
+        return novosEstados;
+    }
+    
+    public LinkedList<Tabuleiro> proximosEstadosA(){
+        int i,j;
+        Tabuleiro t;
+        LinkedList<Tabuleiro> novosEstados = new LinkedList<Tabuleiro>();
+        
+        for(i=0;i<rainhas;i++){
+            for(j=0;j<rainhas;j++)
+                if(tabuleiro[i]!=j){
+                    t = this.clone();
+                    t.moveRainha(i, j);
+                    t.setAvaliacao(t.getHeuristica()+1);
                     novosEstados.add(t);
                 }
         }

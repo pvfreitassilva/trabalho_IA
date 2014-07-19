@@ -67,7 +67,9 @@ public class Busca {
                 System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
             } else {
                 Tabuleiro tAux = abertos.getFirst();
+                abertos.removeFirst();
                 estadosVisitados++;
+                //tAux.imprimeTabuleiro();
                 if (tAux.cheio()) {
                     tAux.imprimeTabuleiro();
                     System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
@@ -82,8 +84,7 @@ public class Busca {
                         abertos.add(u);
                         regra = tAux.regraAplicavel();
                         estadosExpandidos++;
-                    }
-                    abertos.removeFirst();
+                    }                    
                     Collections.sort(abertos);
                     //imprimeLista(abertos);
                     //Thread.sleep(100000000);
@@ -175,11 +176,9 @@ public class Busca {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> fechados = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> proxEstados;
-        t.distribuiRainhas();
         t.setAvaliacao(t.getHeuristica());
         boolean sucesso = false;
         boolean fracasso = false;
-        int rainhas = t.rainhas, i;
         abertos.add(t);
         estadosExpandidos++;
         Iterator itrAbertos, itrFechados, itrProximos;
@@ -194,9 +193,6 @@ public class Busca {
                 Tabuleiro tAux = abertos.getFirst();
                 fechados.add(tAux);
                 abertos.removeFirst();
-                
-                //tAux.imprimeTabuleiro();
-                //System.out.println(tAux.getAvaliacao());
                 
                 estadosVisitados++;
                 if (tAux.getHeuristica()==0) {
@@ -231,6 +227,149 @@ public class Busca {
                         if(!repetido){
                             abertos.add(u);
                             estadosExpandidos++;
+                        }
+                    }
+                    Collections.sort(abertos);
+                }
+            }
+         }
+    }
+    
+    public void a_estrela(Tabuleiro t){
+        LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
+        LinkedList<Tabuleiro> fechados = new LinkedList<Tabuleiro>();
+        LinkedList<Tabuleiro> proxEstados;
+        t.setAvaliacao(t.getHeuristica()+1);
+        boolean sucesso = false;
+        boolean fracasso = false;
+        abertos.add(t);
+        estadosExpandidos++;
+        Iterator itrAbertos, itrFechados, itrProximos;
+        Boolean repetido;
+        Tabuleiro teste;
+        
+        while (!(sucesso || fracasso)) {
+            if (abertos.isEmpty()) {
+                fracasso = true;
+                System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+            } else {
+                Tabuleiro tAux = abertos.getFirst();
+                fechados.add(tAux);
+                abertos.removeFirst();
+                
+                estadosVisitados++;
+                if (tAux.getHeuristica()==0) {
+                    tAux.imprimeTabuleiro();
+                    System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+                    sucesso = true;
+                } else {
+                    
+                    Tabuleiro u;
+                    
+                    proxEstados = tAux.proximosEstadosA();
+                    itrProximos=proxEstados.iterator();
+                    while(itrProximos.hasNext()){
+                        u = (Tabuleiro) itrProximos.next();
+                        itrAbertos=abertos.iterator();
+                        itrFechados=fechados.iterator();
+                        repetido = false;                        
+                        while( (itrAbertos.hasNext() || itrFechados.hasNext()) && !repetido){
+                            if(itrAbertos.hasNext()){
+                                teste = (Tabuleiro)itrAbertos.next();
+                                if(u.igual(teste)){
+                                    repetido = true;
+                                }
+                            }
+                            if(itrFechados.hasNext()){
+                                teste = (Tabuleiro)itrFechados.next();
+                                if(u.igual(teste)){
+                                    repetido = true;
+                                }
+                            }
+                        }
+                        if(!repetido){
+                            abertos.add(u);
+                            estadosExpandidos++;
+                        }
+                    }
+                    Collections.sort(abertos);
+                }
+            }
+         }
+    }
+    
+    public void ida_estrela(Tabuleiro t){
+        LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
+        LinkedList<Tabuleiro> fechados = new LinkedList<Tabuleiro>();
+        LinkedList<Tabuleiro> proxEstados;
+        LinkedList<Tabuleiro> descartados = new LinkedList<Tabuleiro>();
+        t.setAvaliacao(t.getHeuristica()+1);
+        boolean sucesso = false;
+        boolean fracasso = false;
+        abertos.add(t);
+        estadosExpandidos++;
+        Iterator itrAbertos, itrFechados, itrProximos;
+        Boolean repetido;
+        Tabuleiro teste;
+        
+        int patamar = t.getAvaliacao(), patamar_old=-1;
+        
+        while (!(sucesso || fracasso)) {
+            if (abertos.isEmpty()) {
+                Collections.sort(descartados);
+                patamar_old=patamar;
+                patamar = descartados.getFirst().getAvaliacao();
+                if(patamar_old == patamar){
+                    fracasso = true;
+                    System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+                }
+                descartados = new LinkedList<Tabuleiro>();
+                abertos = new LinkedList<Tabuleiro>();
+                fechados = new LinkedList<Tabuleiro>();
+                abertos.add(t);
+            } else {
+                Tabuleiro tAux = abertos.getFirst();
+                fechados.add(tAux);
+                abertos.removeFirst();
+                
+                estadosVisitados++;
+                if (tAux.getHeuristica()==0) {
+                    tAux.imprimeTabuleiro();
+                    System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+                    sucesso = true;
+                } else {
+                    
+                    Tabuleiro u;
+                    
+                    proxEstados = tAux.proximosEstadosA();
+                    itrProximos=proxEstados.iterator();
+                    while(itrProximos.hasNext()){
+                        u = (Tabuleiro) itrProximos.next();
+                        if(u.getAvaliacao()<=patamar){
+                            itrAbertos=abertos.iterator();
+                            itrFechados=fechados.iterator();
+                            repetido = false;
+                            while( (itrAbertos.hasNext() || itrFechados.hasNext()) && !repetido){
+                                if(itrAbertos.hasNext()){
+                                    teste = (Tabuleiro)itrAbertos.next();
+                                    if(u.igual(teste)){
+                                        repetido = true;
+                                    }
+                                }
+                                if(itrFechados.hasNext()){
+                                    teste = (Tabuleiro)itrFechados.next();
+                                    if(u.igual(teste)){
+                                        repetido = true;
+                                    }
+                                }
+                            }
+                            if(!repetido){
+                                abertos.add(u);
+                                estadosExpandidos++;
+                            }
+                        }
+                        else{
+                            descartados.add(u);
                         }
                     }
                     Collections.sort(abertos);
