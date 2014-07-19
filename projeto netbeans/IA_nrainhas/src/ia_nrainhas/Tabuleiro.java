@@ -110,16 +110,16 @@ public class Tabuleiro {
         int i,j;
         String linha = new String();
         for(i=0;i<rainhas;i++)
-            linha = linha.concat(" ___");
+            linha = linha.concat(" _");
         //linha = linha.concat("-");
         System.out.println(linha);
         for(i=0;i<rainhas;i++){
             System.out.print("|");
             for(j=0;j<rainhas;j++){
                 if(tabuleiro[i]==j)
-                    System.out.print("_R_|");
+                    System.out.print("R|");
                 else 
-                    System.out.print("___|");
+                    System.out.print("_|");
             }
             //System.out.println('\n'+linha);
             System.out.println("");

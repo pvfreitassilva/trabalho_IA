@@ -43,12 +43,12 @@ public class Main {
             }while(rainhas<4);
 
             
-            
+            /*
             Tabuleiro aux = new Tabuleiro(rainhas);
             aux.distribuiRainhas();
             aux.imprimeTabuleiro();
             System.out.println("N ataques:"+aux.heuristica());
-            
+            */
             
             System.out.println("Informe o algoritmo de busca desejado:");
             System.out.println("1. Backtracking");
@@ -87,7 +87,7 @@ public class Main {
                 }
                 case 4: {
                     System.out.println("Buscando usando busca ordenada...");
-                    //b.ordenada(tabuleiro);
+                    b.ordenada(tabuleiro);
                     break;
                 }
                 case 5: {System.out.println("Buscando usando busca gulosa...");

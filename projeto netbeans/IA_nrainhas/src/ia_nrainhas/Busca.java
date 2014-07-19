@@ -4,6 +4,8 @@
  */
 package ia_nrainhas;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -51,9 +53,55 @@ public class Busca {
     }
 
     public void ordenada(Tabuleiro t) {
+        LinkedList<NoTabuleiro> abertos = new LinkedList<NoTabuleiro>();
+        NoTabuleiro nt = new NoTabuleiro(t,1);
+        boolean sucesso = false;
+        boolean fracasso = false;
+        int regra;
+        abertos.add(nt);
+        estadosExpandidos++;
 
+        while (!(sucesso || fracasso)) {
+            if (abertos.isEmpty()) {
+                fracasso = true;
+                System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+            } else {
+                NoTabuleiro ntAux = abertos.getFirst();
+                estadosVisitados++;
+                if (ntAux.getTabuleiro().cheio()) {
+                    ntAux.getTabuleiro().imprimeTabuleiro();
+                    System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+                    sucesso = true;
+                } else {
+                    Tabuleiro u;
+                    regra = ntAux.getTabuleiro().regraAplicavel();
+                    NoTabuleiro ntAux2;
+                    while (regra != -1) {
+                        u = ntAux.getTabuleiro().clone();
+                        u.incluiRainha(u.linhaAtual, regra);
+                        ntAux2 = new NoTabuleiro (u,1);
+                        abertos.add(ntAux2);
+                        regra = ntAux.getTabuleiro().regraAplicavel();
+                        estadosExpandidos++;
+                    }
+                    abertos.removeFirst();
+                    Collections.sort(abertos);
+                    //imprimeLista(abertos);
+                    //Thread.sleep(100000000);
+                }
+            }
+        }        
     }
 
+    public void imprimeLista(LinkedList<NoTabuleiro> abertos){
+        Iterator i = abertos.iterator();
+        NoTabuleiro nt;
+        while(i.hasNext()){
+            nt = (NoTabuleiro) i.next();
+            nt.getTabuleiro().imprimeTabuleiro();
+        }
+    }
+    
     public void largura(Tabuleiro t) {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         boolean sucesso = false;
