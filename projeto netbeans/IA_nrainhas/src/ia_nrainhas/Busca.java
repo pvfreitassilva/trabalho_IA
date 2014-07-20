@@ -50,65 +50,7 @@ public class Busca {
             }
         }
     }
-
-    public void ordenada(Tabuleiro t) {
-        LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
-        t.setAvaliacao(1);
-        boolean sucesso = false;
-        boolean fracasso = false;
-        int regra;
-        abertos.add(t);
-        estadosExpandidos++;
-        Iterator itrMenor;
-        Tabuleiro tAux, tAux2;
-
-        while (!(sucesso || fracasso)) {
-            if (abertos.isEmpty()) {
-                fracasso = true;
-                System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
-            } else {
-                //Inicio do codigo com ordenacao
-                //*
-                Collections.sort(abertos);
-                tAux = abertos.getFirst();
-                abertos.removeFirst();
-                //*/
-                //Termino do codigo com ordenacao
-                                
-                //Inicio do codigo sem ordenacao
-                /*
-                itrMenor = abertos.iterator();
-                tAux = abertos.getFirst();
-                while(itrMenor.hasNext()){
-                    tAux2 = (Tabuleiro) itrMenor.next();
-                    if(tAux.getAvaliacao()>tAux2.getAvaliacao())
-                        tAux=tAux2;
-                }
-                abertos.removeFirstOccurrence(tAux);
-                */
-                //termino do codigo sem ordenacao
-                
-                estadosVisitados++;
-                if (tAux.cheio()) {
-                    tAux.imprimeTabuleiro();
-                    System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
-                    sucesso = true;
-                } else {
-                    Tabuleiro u;
-                    regra = tAux.regraAplicavel();
-                    while (regra != -1) {
-                        u = tAux.clone();
-                        u.incluiRainha(u.linhaAtual, regra);
-                        u.setAvaliacao(1);
-                        abertos.add(u);
-                        regra = tAux.regraAplicavel();
-                        estadosExpandidos++;
-                    }
-                }
-            }
-        }        
-    }
-    
+        
     public void largura(Tabuleiro t) {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         boolean sucesso = false;
@@ -143,7 +85,7 @@ public class Busca {
             }
         }
     }
-
+        
     public void profundidade(Tabuleiro t) {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         boolean sucesso = false;
@@ -177,6 +119,64 @@ public class Busca {
                 }
             }
         }
+    }
+    
+    public void ordenada(Tabuleiro t) {
+        LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
+        t.setAvaliacao(1);
+        boolean sucesso = false;
+        boolean fracasso = false;
+        int regra;
+        abertos.add(t);
+        estadosExpandidos++;
+        Iterator itrMenor;
+        Tabuleiro tAux, tAux2;
+
+        while (!(sucesso || fracasso)) {
+            if (abertos.isEmpty()) {
+                fracasso = true;
+                System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+            } else {
+                //Inicio do codigo com ordenacao
+                /*
+                Collections.sort(abertos);
+                tAux = abertos.getFirst();
+                abertos.removeFirst();
+                */
+                //Termino do codigo com ordenacao
+                                
+                //Inicio do codigo sem ordenacao
+                ///*
+                itrMenor = abertos.iterator();
+                tAux = abertos.getFirst();
+                while(itrMenor.hasNext()){
+                    tAux2 = (Tabuleiro) itrMenor.next();
+                    if(tAux.getAvaliacao()>tAux2.getAvaliacao())
+                        tAux=tAux2;
+                }
+                abertos.removeFirstOccurrence(tAux);
+                //*/
+                //termino do codigo sem ordenacao
+                
+                estadosVisitados++;
+                if (tAux.cheio()) {
+                    tAux.imprimeTabuleiro();
+                    System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+                    sucesso = true;
+                } else {
+                    Tabuleiro u;
+                    regra = tAux.regraAplicavel();
+                    while (regra != -1) {
+                        u = tAux.clone();
+                        u.incluiRainha(u.linhaAtual, regra);
+                        u.setAvaliacao(1);
+                        abertos.add(u);
+                        regra = tAux.regraAplicavel();
+                        estadosExpandidos++;
+                    }
+                }
+            }
+        }        
     }
     
     public void gulosa(Tabuleiro t){
