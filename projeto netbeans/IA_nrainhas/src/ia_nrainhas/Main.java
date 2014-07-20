@@ -17,7 +17,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int rainhas;
+        int rainhas = 0;
         int opcao;
         int continua;
         long tempoInicial, tempoTotal;
@@ -36,6 +36,7 @@ public class Main {
         System.out.println("#########################################");
 
         System.out.println("\nInforme o numero de rainhas (minimo 4):");
+
         do{
             rainhas = entrada.nextInt();
             if(rainhas<4)
@@ -63,44 +64,49 @@ public class Main {
                 if(opcao<1 || opcao>7)
                     System.out.println("Opcao invalida. Digite novamente:");			
             }while(opcao<1 || opcao>7);
- 
             
             b = new Busca();
             tempoInicial=System.currentTimeMillis();
             
             switch(opcao){
                 case 1: {
-                    System.out.println("Buscando usando backtracking...");
+                    System.out.println("Buscando usando backtracking com "+rainhas+" rainhas...");
                     b.backtracking(tabuleiro);
                     break;
                 }
                 case 2: {
-                    System.out.println("Buscando usando busca em largura...");
+                    System.out.println("Buscando usando busca em largura com "+rainhas+" rainhas...");
                     b.largura(tabuleiro);
                     break;
                 }
                 case 3: {
-                    System.out.println("Buscando usando busca em profundidade...");                    
+                    System.out.println("Buscando usando busca em profundidade com "+rainhas+" rainhas...");                    
                     b.profundidade(tabuleiro);
                     break;
                 }
                 case 4: {
-                    System.out.println("Buscando usando busca ordenada...");
+                    System.out.println("Buscando usando busca ordenada com "+rainhas+" rainhas...");
                     b.ordenada(tabuleiro);
                     break;
                 }
                 case 5: {
-                    System.out.println("Buscando usando busca gulosa...");
+                    System.out.println("Tabuleiro aleatorio:");
+                    tabDistribuido.imprimeTabuleiro();
+                    System.out.println("Buscando usando busca gulosa com "+rainhas+" rainhas...");
                     b.gulosa(tabDistribuido);
                     break;
                 }
                 case 6: {
-                    System.out.println("Buscando usando busca A*...");
+                    System.out.println("Tabuleiro aleatorio:");
+                    tabDistribuido.imprimeTabuleiro();
+                    System.out.println("Buscando usando busca A* com "+rainhas+" rainhas...");
                     b.a_estrela(tabDistribuido);
                     break;
                 }
                 case 7: {
-                    System.out.println("Buscando usando busca IDA*...");
+                    System.out.println("Tabuleiro aleatorio:");
+                    tabDistribuido.imprimeTabuleiro();
+                    System.out.println("Buscando usando busca IDA* com "+rainhas+" rainhas...");
                     b.ida_estrela(tabDistribuido);
                     break;
                 }

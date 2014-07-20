@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package ia_nrainhas;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -311,6 +310,7 @@ public class Busca {
         Iterator itrAbertos, itrFechados, itrProximos;
         Boolean repetido;
         Tabuleiro teste;
+        int nDescartados = 0, iterNovas = 1;
         
         int patamar = t.getAvaliacao(), patamar_old=-1;
         
@@ -321,13 +321,17 @@ public class Busca {
                 patamar = descartados.getFirst().getAvaliacao();
                 if(patamar_old == patamar){
                     fracasso = true;
-                    System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+                    System.out.println("Solucao nao encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+                    System.out.println("Total de estados descartados: "+nDescartados+". Total de redefinicoes do patamar: "+iterNovas);
+                    break;
                 }
+                iterNovas++;
                 descartados = new LinkedList<Tabuleiro>();
                 abertos = new LinkedList<Tabuleiro>();
                 fechados = new LinkedList<Tabuleiro>();
                 abertos.add(t);
-            } else {
+            }
+            else {
                 Tabuleiro tAux = abertos.getFirst();
                 fechados.add(tAux);
                 abertos.removeFirst();
@@ -336,6 +340,7 @@ public class Busca {
                 if (tAux.getHeuristica()==0) {
                     tAux.imprimeTabuleiro();
                     System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
+                    System.out.println("Total de estados descartados: "+nDescartados+". Total de redefinicoes do patamar: "+iterNovas);
                     sucesso = true;
                 } else {
                     
@@ -370,6 +375,7 @@ public class Busca {
                         }
                         else{
                             descartados.add(u);
+                            nDescartados++;
                         }
                     }
                     Collections.sort(abertos);
