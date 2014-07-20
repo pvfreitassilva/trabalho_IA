@@ -90,22 +90,22 @@ public class Main {
                     break;
                 }
                 case 5: {
-                    System.out.println("Tabuleiro aleatorio:");
-                    tabDistribuido.imprimeTabuleiro();
+                    //System.out.println("Tabuleiro aleatorio:");
+                    //tabDistribuido.imprimeTabuleiro();
                     System.out.println("Buscando usando busca gulosa com "+rainhas+" rainhas...");
                     b.gulosa(tabDistribuido);
                     break;
                 }
                 case 6: {
-                    System.out.println("Tabuleiro aleatorio:");
-                    tabDistribuido.imprimeTabuleiro();
+                    //System.out.println("Tabuleiro aleatorio:");
+                    //tabDistribuido.imprimeTabuleiro();
                     System.out.println("Buscando usando busca A* com "+rainhas+" rainhas...");
                     b.a_estrela(tabDistribuido);
                     break;
                 }
                 case 7: {
-                    System.out.println("Tabuleiro aleatorio:");
-                    tabDistribuido.imprimeTabuleiro();
+                    //System.out.println("Tabuleiro aleatorio:");
+                    //tabDistribuido.imprimeTabuleiro();
                     System.out.println("Buscando usando busca IDA* com "+rainhas+" rainhas...");
                     b.ida_estrela(tabDistribuido);
                     break;
