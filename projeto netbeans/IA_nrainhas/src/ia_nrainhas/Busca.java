@@ -59,16 +59,36 @@ public class Busca {
         int regra;
         abertos.add(t);
         estadosExpandidos++;
+        Iterator itrMenor;
+        Tabuleiro tAux, tAux2;
 
         while (!(sucesso || fracasso)) {
             if (abertos.isEmpty()) {
                 fracasso = true;
                 System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
             } else {
-                Tabuleiro tAux = abertos.getFirst();
+                //Inicio do codigo com ordenacao
+                //*
+                Collections.sort(abertos);
+                tAux = abertos.getFirst();
                 abertos.removeFirst();
+                //*/
+                //Termino do codigo com ordenacao
+                                
+                //Inicio do codigo sem ordenacao
+                /*
+                itrMenor = abertos.iterator();
+                tAux = abertos.getFirst();
+                while(itrMenor.hasNext()){
+                    tAux2 = (Tabuleiro) itrMenor.next();
+                    if(tAux.getAvaliacao()>tAux2.getAvaliacao())
+                        tAux=tAux2;
+                }
+                abertos.removeFirstOccurrence(tAux);
+                */
+                //termino do codigo sem ordenacao
+                
                 estadosVisitados++;
-                //tAux.imprimeTabuleiro();
                 if (tAux.cheio()) {
                     tAux.imprimeTabuleiro();
                     System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
@@ -83,22 +103,10 @@ public class Busca {
                         abertos.add(u);
                         regra = tAux.regraAplicavel();
                         estadosExpandidos++;
-                    }                    
-                    Collections.sort(abertos);
-                    //imprimeLista(abertos);
-                    //Thread.sleep(100000000);
+                    }
                 }
             }
         }        
-    }
-
-    public void imprimeLista(LinkedList<Tabuleiro> abertos){
-        Iterator i = abertos.iterator();
-        Tabuleiro t;
-        while(i.hasNext()){
-            t = (Tabuleiro) i.next();
-            t.imprimeTabuleiro();
-        }
     }
     
     public void largura(Tabuleiro t) {
@@ -180,18 +188,34 @@ public class Busca {
         boolean fracasso = false;
         abertos.add(t);
         estadosExpandidos++;
-        Iterator itrAbertos, itrFechados, itrProximos;
+        Iterator itrAbertos, itrFechados, itrProximos, itrMenor;
         Boolean repetido;
         Tabuleiro teste;
+        Tabuleiro tAux, tAux2;
         
         while (!(sucesso || fracasso)) {
             if (abertos.isEmpty()) {
                 fracasso = true;
                 System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
             } else {
-                Tabuleiro tAux = abertos.getFirst();
+                //Inicio do codigo com ordenacao
+                //Collections.sort(abertos);
+                //tAux = abertos.getFirst();
+                //fechados.add(tAux);
+                //abertos.removeFirst();
+                //Termino do codigo com ordenacao
+                
+                //Inicio do codigo sem ordenacao
+                itrMenor = abertos.iterator();
+                tAux = abertos.getFirst();
+                while(itrMenor.hasNext()){
+                    tAux2 = (Tabuleiro) itrMenor.next();
+                    if(tAux.getAvaliacao()>tAux2.getAvaliacao())
+                        tAux=tAux2;
+                }
                 fechados.add(tAux);
-                abertos.removeFirst();
+                abertos.removeFirstOccurrence(tAux);
+                //Termino do codigo sem ordenacao
                 
                 estadosVisitados++;
                 if (tAux.getHeuristica()==0) {
@@ -228,7 +252,6 @@ public class Busca {
                             estadosExpandidos++;
                         }
                     }
-                    Collections.sort(abertos);
                 }
             }
          }
@@ -243,18 +266,33 @@ public class Busca {
         boolean fracasso = false;
         abertos.add(t);
         estadosExpandidos++;
-        Iterator itrAbertos, itrFechados, itrProximos;
+        Iterator itrAbertos, itrFechados, itrProximos, itrMenor;
         Boolean repetido;
-        Tabuleiro teste;
+        Tabuleiro teste, tAux, tAux2;
         
         while (!(sucesso || fracasso)) {
             if (abertos.isEmpty()) {
                 fracasso = true;
                 System.out.println("Solucao não encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
             } else {
-                Tabuleiro tAux = abertos.getFirst();
+                //Inicio do codigo com ordenacao
+                //Collections.sort(abertos);
+                //tAux = abertos.getFirst();
+                //fechados.add(tAux);
+                //abertos.removeFirst();
+                //Termino do codigo com ordenacao
+                
+                //Inicio do codigo sem ordenacao
+                itrMenor = abertos.iterator();
+                tAux = abertos.getFirst();
+                while(itrMenor.hasNext()){
+                    tAux2 = (Tabuleiro) itrMenor.next();
+                    if(tAux.getAvaliacao()>tAux2.getAvaliacao())
+                        tAux=tAux2;
+                }
                 fechados.add(tAux);
-                abertos.removeFirst();
+                abertos.removeFirstOccurrence(tAux);
+                //Termino do codigo sem ordenacao
                 
                 estadosVisitados++;
                 if (tAux.getHeuristica()==0) {
@@ -291,7 +329,6 @@ public class Busca {
                             estadosExpandidos++;
                         }
                     }
-                    Collections.sort(abertos);
                 }
             }
          }
@@ -307,9 +344,9 @@ public class Busca {
         boolean fracasso = false;
         abertos.add(t);
         estadosExpandidos++;
-        Iterator itrAbertos, itrFechados, itrProximos;
+        Iterator itrAbertos, itrFechados, itrProximos, itrMenor;
         Boolean repetido;
-        Tabuleiro teste;
+        Tabuleiro teste, tAux, tAux2;
         int nDescartados = 0, iterNovas = 1;
         
         int patamar = t.getAvaliacao(), patamar_old=-1;
@@ -332,9 +369,24 @@ public class Busca {
                 abertos.add(t);
             }
             else {
-                Tabuleiro tAux = abertos.getFirst();
+                //Inicio do codigo com ordenacao
+                //Collections.sort(abertos);
+                //tAux = abertos.getFirst();
+                //fechados.add(tAux);
+                //abertos.removeFirst();
+                //Termino do codigo com ordenacao
+                
+                //Inicio do codigo sem ordenacao
+                itrMenor = abertos.iterator();
+                tAux = abertos.getFirst();
+                while(itrMenor.hasNext()){
+                    tAux2 = (Tabuleiro) itrMenor.next();
+                    if(tAux.getAvaliacao()>tAux2.getAvaliacao())
+                        tAux=tAux2;
+                }
                 fechados.add(tAux);
-                abertos.removeFirst();
+                abertos.removeFirstOccurrence(tAux);
+                //Termino do codigo sem ordenacao
                 
                 estadosVisitados++;
                 if (tAux.getHeuristica()==0) {
@@ -378,7 +430,6 @@ public class Busca {
                             nDescartados++;
                         }
                     }
-                    Collections.sort(abertos);
                 }
             }
          }
