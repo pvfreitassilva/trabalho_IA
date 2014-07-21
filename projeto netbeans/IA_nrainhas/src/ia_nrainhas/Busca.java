@@ -8,8 +8,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- *
- * @author Paulo Vitor
+ * Contem a implementacao dos algoritmos de busca backtracking, largura,
+ * profundidade, ordenada, gulosa, A* e IDA* para o problema das N-Rainhas.
+ * 
  */
 public class Busca {
 
@@ -19,6 +20,10 @@ public class Busca {
         estadosExpandidos = estadosVisitados = 0;
     }
 
+    /**
+     * Efetua uma busca recursiva pelo metodo de backtracking.
+     * @param t Tabuleiro vazio que o algoritmo tentara preencher.
+     */
     public void backtracking(Tabuleiro t) {
         estadosExpandidos++;
         if (this.bt(t)) {
@@ -27,7 +32,12 @@ public class Busca {
             System.out.println("Solucao nao encontrada. Estados expandidos e visitados: " + estadosExpandidos);
         }
     }
-
+    
+    /**
+     * Extensao do algoritmo backtracking.
+     * @param t estado do tabuleiro a ser analisado.
+     * @return true se a busca obteve sucesso, false se obteve fracasso.
+     */
     private Boolean bt(Tabuleiro t) {
         int regra;
         Tabuleiro no;
@@ -36,7 +46,7 @@ public class Busca {
             if (regra >= 0) {
                 no = t.clone();
                 estadosExpandidos++;
-                no.incluiRainha(no.linhaAtual, regra);
+                no.incluiRainha(no.getLinhaAtual(), regra);
                 if (no.cheio()) {
                     no.imprimeTabuleiro();
                     return true;
@@ -50,7 +60,11 @@ public class Busca {
             }
         }
     }
-        
+    
+    /**
+     * Efetua uma busca pelo metodo de busca em largura.
+     * @param t Tabuleiro vazio que o algoritmo tentara preencher.
+     */
     public void largura(Tabuleiro t) {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         boolean sucesso = false;
@@ -75,7 +89,7 @@ public class Busca {
                     regra = n.regraAplicavel();
                     while (regra != -1) {
                         u = n.clone();
-                        u.incluiRainha(u.linhaAtual, regra);
+                        u.incluiRainha(u.getLinhaAtual(), regra);
                         abertos.addLast(u);
                         regra = n.regraAplicavel();
                         estadosExpandidos++;
@@ -85,7 +99,11 @@ public class Busca {
             }
         }
     }
-        
+    
+    /**
+     * Efetua uma busca pelo metodo de busca em profundidade.
+     * @param t Tabuleiro vazio que o algoritmo tentara preencher.
+     */
     public void profundidade(Tabuleiro t) {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         boolean sucesso = false;
@@ -111,7 +129,7 @@ public class Busca {
                     abertos.removeLast();  
                     while (regra != -1) {
                         u = n.clone();
-                        u.incluiRainha(u.linhaAtual, regra);
+                        u.incluiRainha(u.getLinhaAtual(), regra);
                         abertos.add(u);
                         regra = n.regraAplicavel();
                         estadosExpandidos++;
@@ -121,6 +139,10 @@ public class Busca {
         }
     }
     
+    /**
+     * Efetua uma busca pelo metodo de busca ordenada.
+     * @param t Tabuleiro vazio que o algoritmo tentara preencher.
+     */
     public void ordenada(Tabuleiro t) {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         t.setAvaliacao(1);
@@ -168,7 +190,7 @@ public class Busca {
                     regra = tAux.regraAplicavel();
                     while (regra != -1) {
                         u = tAux.clone();
-                        u.incluiRainha(u.linhaAtual, regra);
+                        u.incluiRainha(u.getLinhaAtual(), regra);
                         u.setAvaliacao(1);
                         abertos.add(u);
                         regra = tAux.regraAplicavel();
@@ -179,6 +201,11 @@ public class Busca {
         }        
     }
     
+    /**
+     * Efetua uma busca pelo metodo de busca gulosa.
+     * @param t Tabuleiro gerado aleatoriamente. A funcao ira mover as rainhas
+     * ate encontrar uma solucao.
+     */
     public void gulosa(Tabuleiro t){
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> fechados = new LinkedList<Tabuleiro>();
@@ -257,6 +284,11 @@ public class Busca {
          }
     }
     
+    /**
+     * Efetua uma busca pelo metodo de busca A*.
+     * @param t Tabuleiro gerado aleatoriamente. A funcao ira mover as rainhas
+     * ate encontrar uma solucao.
+     */
     public void a_estrela(Tabuleiro t){
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> fechados = new LinkedList<Tabuleiro>();
@@ -334,6 +366,11 @@ public class Busca {
          }
     }
     
+    /**
+     * Efetua uma busca pelo metodo de busca IDA*.
+     * @param t Tabuleiro gerado aleatoriamente. A funcao ira mover as rainhas
+     * ate encontrar uma solucao.
+     */
     public void ida_estrela(Tabuleiro t){
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> fechados = new LinkedList<Tabuleiro>();

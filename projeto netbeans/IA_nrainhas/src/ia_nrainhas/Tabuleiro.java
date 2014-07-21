@@ -7,17 +7,21 @@ import java.util.LinkedList;
 import java.util.Random;
 
 /**
- *
+ * Mantem a estrutura de um tabuleiro NxN.
  * @author Paulo Vitor
  */
 public class Tabuleiro implements Comparable<Tabuleiro>{
-    int tabuleiro[];
-    int rainhas;
-    int regra;
-    int linhaAtual;
+    private int tabuleiro[];
+    private int rainhas;
+    private int regra;
+    private int linhaAtual;
     private int avaliacao;
     private int heuristica;
 
+    /**
+     * Construtor da classe.
+     * @param rainhas numero de rainhas do tabuleiro.
+     */
     public Tabuleiro (int rainhas){
         int i;
         this.rainhas = rainhas;
@@ -30,6 +34,13 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         heuristica = -1;
     }
     
+    public int getLinhaAtual(){
+        return linhaAtual;
+    }
+    
+    /**
+     * Cria um tabuleiro aleatorio e calcula sua heuristica.
+     */
     public void distribuiRainhas(){
         int i;
         Random gerador = new Random();
@@ -40,32 +51,35 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         heuristica = this.heuristica();
     }
     
-    public void sorteiaMovimento(){
-        Random gerador = new Random();
-        int linha, coluna;
-        if(linhaAtual!=rainhas){
-            System.out.println("O tabuleiro nao foi distribuido. Nao foi possivel sortear um movimento.");
-        }
-        else{
-            linha = gerador.nextInt(rainhas);
-            coluna = gerador.nextInt(rainhas);
-            tabuleiro[linha]=coluna;
-            heuristica = this.heuristica();
-        }
-    }
-    
+    /**
+     * Atribui o valor da funcao de avaliacao ao tabuleiro.
+     * @param avaliacao valor da funcao de avaliacao.
+     */
     public void setAvaliacao(int avaliacao){
         this.avaliacao = avaliacao;
     }
     
+    /**
+     * 
+     * @return Retorna o valor da funcao de avaliacao do tabuleiro.
+     */
     public int getAvaliacao(){
         return avaliacao;
     }
     
+    /**
+     * 
+     * @return Retorna o valor da funcai heuristica do tabuleiro.
+     */
     public int getHeuristica(){
         return heuristica;
     }
     
+    /**
+     * Calcula a proxima regra aplicavel no tabuleiro. A regra e a coluna
+     * cuja rainha pode ser disposta sem receber ataques na linha atual.
+     * @return Retorna a proxima regra aplicavel do tabuleiro.
+     */
     public int regraAplicavel(){
         int coluna;
         if(linhaAtual==0 && regra<rainhas){
@@ -86,6 +100,11 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         return -1;
     }
     
+    /**
+     * Verifica que se existe ataque de outra rainha na coluna da linha atual.
+     * @param coluna coluna da linha atual a ser avaliada.
+     * @return true se existir ataque, false caso contrario
+     */
     private Boolean existeAtaque(int coluna){
         int linha, linhaAux, i;
         for(linha=0;linha<linhaAtual;linha++)
@@ -100,11 +119,20 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         return false;
     }
     
-    public void moveRainha(int linha, int coluna){
+    /**
+     * Move uma rainha do tabuleiro.
+     * @param linha linha da rainha a ser movida.
+     * @param coluna coluna para onde a rainha deve ser movida.
+     */
+    private void moveRainha(int linha, int coluna){
         tabuleiro[linha]=coluna;
         heuristica = this.heuristica();
     }
     
+    /**
+     * Faz um clone do tabuleiro;
+     * @return clone do tabuleiro
+     */
     public Tabuleiro clone(){
         Tabuleiro t = new Tabuleiro(rainhas);
         int i;
@@ -116,6 +144,11 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         return t;
     }
     
+    /**
+     * Verifica se as rainhas do tabuleiro estao igualmente dispostas
+     * @param t tabuleiro a ser comparado
+     * @return true se os tabuleiros forem iguais, false caso contrario.
+     */
     public Boolean igual(Tabuleiro t){
         int i;
         if(t==null)
@@ -126,22 +159,30 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         return true;
     }
     
+    /**
+     * Insere uma rainha na linha e coluna desejadas e ajusta a indicacao da proxima
+     * linha vazia.
+     * @param linha linha onde a rainha deve ser inserida.
+     * @param coluna coluna onde a rainha deve ser inserida.
+     */
     public void incluiRainha(int linha, int coluna){
         this.tabuleiro[linha]=coluna;
         this.linhaAtual++;
     }
     
-    public void removeRainha(int linha){
-        this.tabuleiro[linha]=-1;
-        linhaAtual--;
-    }
-    
+    /**
+     * Verifica se o tabuleiro esta cheio.
+     * @return true se o tabuleiro estiver cheio, false caso contrario.
+     */
     public boolean cheio(){
         if(linhaAtual==rainhas)
             return true;
         return false;
     }
     
+    /**
+     * Imprime uma representacao do tabuleiro
+     */
     public void imprimeTabuleiro(){
         int i,j;
         String linha = new String();
@@ -160,6 +201,11 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         }
     }
     
+    /**
+     * Calcula a heuristica do tabuleiro. A heuristica e dada pela quantidade de ataques
+     * no tabuleiro.
+     * @return valor da heuristica.
+     */
     private int heuristica() {
         int i, j, ataques = 0, aux = 0;
         for (i = 0; i < rainhas - 1; i++) {
@@ -173,10 +219,19 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         return ataques;
     }
     
-    public void setHeuristica(int h){
+    /**
+     * Ajuda o valor da heuristica
+     * @param h heuristica a ser atribuida ao tabuleiro.
+     */
+    private void setHeuristica(int h){
         heuristica = h;
     }
     
+    /**
+     * Calcula os proximo estados possiveis para a busca gulosa. Cada estado e igual
+     * ao pai com uma rainha deslocada.
+     * @return todos os proximo estados possives para a busca gulosa.
+     */    
     public LinkedList<Tabuleiro> proximosEstadosGulosa(){
         int i,j;
         Tabuleiro t;
@@ -194,6 +249,11 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         return novosEstados;
     }
     
+    /**
+     * Calcula os proximo estados possiveis para as buscas A*  e IDA*. Cada estado e igual
+     * ao pai com uma rainha deslocada.
+     * @return todos os proximo estados possives para a busca gulosa.
+     */ 
     public LinkedList<Tabuleiro> proximosEstadosA(){
         int i,j;
         Tabuleiro t;
@@ -211,7 +271,14 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         return novosEstados;
     }
     
-     public int compareTo(Tabuleiro t){
+    /**
+     * Funcao para uso da ordenacao de listas do Java. Compara a avaliacao entre
+     * os tabuleiros.
+     * @param t tabuleiro a ser comparado
+     * @return -1 se a avaliacao do tabuleiro passado por parametro for maior,
+     * 0 se for igual, e 1 se for menor.
+     */
+    public int compareTo(Tabuleiro t){
         if(this.avaliacao < t.getAvaliacao())
             return -1;
         else if(this.avaliacao > t.getAvaliacao())
