@@ -411,14 +411,15 @@ public class Busca {
             }
             else {
                 //Inicio do codigo com ordenacao
+                /*
                 Collections.sort(abertos);
                 tAux = abertos.getFirst();
                 fechados.add(tAux);
                 abertos.removeFirst();
+                * */
                 //Termino do codigo com ordenacao
                 
                 //Inicio do codigo sem ordenacao
-                /*
                 itrMenor = abertos.iterator();
                 tAux = abertos.getFirst();
                 while(itrMenor.hasNext()){
@@ -428,7 +429,6 @@ public class Busca {
                 }
                 fechados.add(tAux);
                 abertos.removeFirstOccurrence(tAux);
-                * */
                 //Termino do codigo sem ordenacao
                 
                 estadosVisitados++;
