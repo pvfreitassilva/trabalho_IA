@@ -17,6 +17,7 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
     private int linhaAtual;
     private int avaliacao;
     private int heuristica;
+    private int custo;
 
     /**
      * Construtor da classe.
@@ -32,6 +33,7 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
         linhaAtual=0;
         avaliacao = -1;
         heuristica = -1;
+        custo=0;
     }
     
     public int getLinhaAtual(){
@@ -73,6 +75,14 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
      */
     public int getHeuristica(){
         return heuristica;
+    }
+    
+    public void setCusto(int custo){
+        this.custo = custo;
+    }
+    
+    public int getCusto(){
+        return custo;
     }
     
     /**
@@ -127,6 +137,7 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
     private void moveRainha(int linha, int coluna){
         tabuleiro[linha]=coluna;
         heuristica = this.heuristica();
+        custo++;
     }
     
     /**
@@ -140,7 +151,8 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
             t.tabuleiro[i]=this.tabuleiro[i];
         t.linhaAtual=this.linhaAtual;
         t.setAvaliacao(avaliacao);
-        t.setHeuristica(heuristica);     
+        t.setHeuristica(heuristica);    
+        t.setCusto(custo);
         return t;
     }
     
@@ -264,7 +276,7 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
                 if(tabuleiro[i]!=j){
                     t = this.clone();
                     t.moveRainha(i, j);
-                    t.setAvaliacao(t.getHeuristica()+1);
+                    t.setAvaliacao(t.getHeuristica()+t.getCusto());
                     novosEstados.add(t);
                 }
         }

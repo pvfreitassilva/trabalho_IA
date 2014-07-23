@@ -145,7 +145,8 @@ public class Busca {
      */
     public void ordenada(Tabuleiro t) {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
-        t.setAvaliacao(1);
+        t.setCusto(0);
+        t.setAvaliacao(t.getAvaliacao());
         boolean sucesso = false;
         boolean fracasso = false;
         int regra;
@@ -191,7 +192,8 @@ public class Busca {
                     while (regra != -1) {
                         u = tAux.clone();
                         u.incluiRainha(u.getLinhaAtual(), regra);
-                        u.setAvaliacao(1);
+                        u.setCusto(1);
+                        u.setAvaliacao(tAux.getAvaliacao()+u.getCusto());
                         abertos.add(u);
                         regra = tAux.regraAplicavel();
                         estadosExpandidos++;
@@ -210,15 +212,15 @@ public class Busca {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> fechados = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> proxEstados;
-        t.setAvaliacao(t.getHeuristica());
-        boolean sucesso = false;
-        boolean fracasso = false;
-        abertos.add(t);
-        estadosExpandidos++;
         Iterator itrAbertos, itrFechados, itrProximos, itrMenor;
-        Boolean repetido;
         Tabuleiro teste;
         Tabuleiro tAux, tAux2;
+        boolean sucesso = false;
+        boolean fracasso = false;
+        boolean repetido;
+        t.setAvaliacao(t.getHeuristica());
+        abertos.add(t);
+        estadosExpandidos++;        
         
         while (!(sucesso || fracasso)) {
             if (abertos.isEmpty()) {
@@ -245,14 +247,13 @@ public class Busca {
                 //Termino do codigo sem ordenacao
                 
                 estadosVisitados++;
+                
                 if (tAux.getHeuristica()==0) {
                     tAux.imprimeTabuleiro();
                     System.out.println("Solução encontrada. Estados expandidos: " + estadosExpandidos + ". Estados visitados: " + estadosVisitados + ".");
                     sucesso = true;
                 } else {
-                    
                     Tabuleiro u;
-                    
                     proxEstados = tAux.proximosEstadosGulosa();
                     itrProximos=proxEstados.iterator();
                     while(itrProximos.hasNext()){
@@ -293,12 +294,14 @@ public class Busca {
         LinkedList<Tabuleiro> abertos = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> fechados = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> proxEstados;
-        t.setAvaliacao(t.getHeuristica()+1);
+        Iterator itrAbertos, itrFechados, itrProximos, itrMenor;
         boolean sucesso = false;
         boolean fracasso = false;
+        t.setCusto(0);
+        t.setAvaliacao(t.getHeuristica()+t.getCusto());
         abertos.add(t);
         estadosExpandidos++;
-        Iterator itrAbertos, itrFechados, itrProximos, itrMenor;
+        
         Boolean repetido;
         Tabuleiro teste, tAux, tAux2;
         
@@ -344,7 +347,7 @@ public class Busca {
                         repetido = false;                        
                         while( (itrAbertos.hasNext() || itrFechados.hasNext()) && !repetido){
                             if(itrAbertos.hasNext()){
-                                teste = (Tabuleiro)itrAbertos.next();
+                                teste = (Tabuleiro) itrAbertos.next();
                                 if(u.igual(teste)){
                                     repetido = true;
                                 }
@@ -376,7 +379,8 @@ public class Busca {
         LinkedList<Tabuleiro> fechados = new LinkedList<Tabuleiro>();
         LinkedList<Tabuleiro> proxEstados;
         LinkedList<Tabuleiro> descartados = new LinkedList<Tabuleiro>();
-        t.setAvaliacao(t.getHeuristica()+1);
+        t.setCusto(0);
+        t.setAvaliacao(t.getHeuristica()+t.getCusto());
         boolean sucesso = false;
         boolean fracasso = false;
         abertos.add(t);
@@ -407,13 +411,14 @@ public class Busca {
             }
             else {
                 //Inicio do codigo com ordenacao
-                //Collections.sort(abertos);
-                //tAux = abertos.getFirst();
-                //fechados.add(tAux);
-                //abertos.removeFirst();
+                Collections.sort(abertos);
+                tAux = abertos.getFirst();
+                fechados.add(tAux);
+                abertos.removeFirst();
                 //Termino do codigo com ordenacao
                 
                 //Inicio do codigo sem ordenacao
+                /*
                 itrMenor = abertos.iterator();
                 tAux = abertos.getFirst();
                 while(itrMenor.hasNext()){
@@ -423,6 +428,7 @@ public class Busca {
                 }
                 fechados.add(tAux);
                 abertos.removeFirstOccurrence(tAux);
+                * */
                 //Termino do codigo sem ordenacao
                 
                 estadosVisitados++;
