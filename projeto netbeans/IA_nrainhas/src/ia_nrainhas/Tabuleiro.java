@@ -137,7 +137,7 @@ public class Tabuleiro implements Comparable<Tabuleiro>{
     private void moveRainha(int linha, int coluna){
         tabuleiro[linha]=coluna;
         heuristica = this.heuristica();
-        custo++;
+        custo=1;
     }
     
     /**
